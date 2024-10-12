@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v3
       - name: Install dependency
@@ -18,11 +20,11 @@ jobs:
           pip install google-generativeai
       - name: Generate bullshit
         run: |
-          python generate.py --api {{ secret.GEMINI_API_KEY }} --prompt {{ secret.PROMPT }}
+          python generate.py --api {{ secrets.GEMINI_API_KEY }} --prompt {{ secrets.PROMPT }}
       - name: Commit
         run: |
-          git config --global user.name {{ secret.USER_NAME }}
-          git config --global user.email {{ secret.USER_EMAIL }}
+          git config --global user.name {{ secrets.USER_NAME }}
+          git config --global user.email {{ secrets.USER_EMAIL }}
           git add -A
           git commit -m "update morning bullshit!"
       - name: Push
