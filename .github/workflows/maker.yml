@@ -20,7 +20,7 @@ jobs:
           pip install google-generativeai
       - name: Generate bullshit
         run: |
-          python generate.py --api ${{secrets.GEMINI_API_KEY}} --prompt ${{secrets.PROMPT}}
+          python generate.py --api ${{secrets.GEMINI_API_KEY}} --prompt "${{secrets.PROMPT}}"
       - name: Commit
         run: |
           git config --global user.name ${{secrets.USER_NAME}}
