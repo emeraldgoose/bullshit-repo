@@ -1,0 +1,30 @@
+name: Morning Bullshit
+
+on:
+  schedule:
+  - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  gen-bullshit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v3
+      - name: Install dependency
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-generativeai -y
+      - name: Generate bullshit
+        run: |
+          python generate.py --api {{ secret.GEMINI_API_KEY }} --prompt {{ secret.PROMPT }}
+      - name: Commit
+        run: |
+          git config --global user.name {{ secret.USER_NAME }}
+          git config --global user.email {{ secret.USER_EMAIL }}
+          git add -A
+          git commit -m "update morning bullshit!"
+      - name: Push
+        run: |
+          git push
